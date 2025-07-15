@@ -2,7 +2,6 @@ import express from "express";
 import poll_router from "./routes/poll_route";
 
 const app = express();
-
 app.use(express.json());
 
 //Routes

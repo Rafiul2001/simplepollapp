@@ -11,16 +11,18 @@ class OptionModel {
 }
 
 class PollModel {
-    id: string;
+    id?: string;
     question: string;
     options: OptionModel[];
     createdAt: Date;
     updatedAt: Date;
 
-    constructor(id: string, question: string, options: OptionModel[]) {
-        this.id = id;
+    constructor(question: string, rawOptions: OptionModel[], id?: string) {
+        if (id) {
+            this.id = id;
+        }
         this.question = question;
-        this.options = options;
+        this.options = rawOptions.map(opt => new OptionModel(opt.id, opt.text));
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
