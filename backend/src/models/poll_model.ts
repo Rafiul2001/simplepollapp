@@ -3,10 +3,10 @@ class OptionModel {
     text: string;
     votes: number;
 
-    constructor(id: string, text: string) {
+    constructor(id: string, text: string, votes?: number) {
         this.id = id;
         this.text = text;
-        this.votes = 0;
+        this.votes = votes || 0;
     }
 }
 
@@ -22,7 +22,7 @@ class PollModel {
             this.id = id;
         }
         this.question = question;
-        this.options = rawOptions.map(opt => new OptionModel(opt.id, opt.text));
+        this.options = rawOptions.map(opt => new OptionModel(opt.id, opt.text, opt.votes));
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }

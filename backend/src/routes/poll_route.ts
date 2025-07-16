@@ -28,13 +28,13 @@ poll_router.post("/add_polls", async (req: Request, res: Response) => {
 });
 
 poll_router.post("/vote", async (req: Request, res: Response) => {
-  const questionAndOptions: { questionId: string, optionId: string }[] = req.body
+  const pollIdsAndOptionIds: { pollId: string, optionId: string }[] = req.body
   try {
     // Run all update operations in parallel and wait for all to finish
-    const updatePromises = questionAndOptions.map((qao) =>
+    const updatePromises = pollIdsAndOptionIds.map((qao) =>
       pollCollection.updateOne(
         {
-          _id: new ObjectId(qao.questionId),
+          _id: new ObjectId(qao.pollId),
           "options.id": qao.optionId
         },
         {
