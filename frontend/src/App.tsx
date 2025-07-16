@@ -61,9 +61,41 @@ const App = () => {
     }
   };
 
+  const getColor = (index: number) => {
+    const colors = ['#ff6b6b', '#ffd93d', '#6bcB77', '#4d96ff', '#a66cff', '#f97316'];
+    return colors[index % colors.length];
+  };
+
   return (
     <div>
       <h1>Poll App</h1>
+      {
+        pollQuestions.map((poll, index) => {
+          // Build the gradient string from poll options
+          let totalVotes = poll.options.reduce((sum, o) => sum + o.votes, 0);
+          let currentPercent = 0;
+
+          const gradientStops = poll.options.map((option, i) => {
+            const percentage = totalVotes === 0 ? 100 / poll.options.length : (option.votes / totalVotes) * 100;
+            const start = currentPercent;
+            const end = currentPercent + percentage;
+            currentPercent = end;
+            const color = getColor(i); // pick color for this slice
+            return `${color} ${start}% ${end}%`;
+          }).join(',');
+
+          return (
+            <div key={index}>
+              <div
+                className="h-40 w-40 rounded-full"
+                style={{ backgroundImage: `conic-gradient(${gradientStops})` }}
+              ></div>
+              <h2>{poll.question}</h2>
+            </div>
+          );
+        })
+      }
+
       <form onSubmit={handleSubmit}>
         {
           pollQuestions.map((poll: Poll, index: number) => {
