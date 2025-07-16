@@ -103,7 +103,7 @@ const App = () => {
 
       <div className="py-4 bg-linear-to-b from-gray-200 to-gray-100">
         <div className="container mx-auto flex items-center justify-between">
-          <h2 className="text-4xl">Poll App</h2>
+          <h2 className="text-3xl">Poll App</h2>
           <div>
             <CiLogin size={24} />
           </div>
@@ -121,7 +121,7 @@ const App = () => {
                   <div className="flex-1">
                     <div className="flex flex-row justify-between text-[16px] md:text-xl lg:text-2xl font-semibold">
                       <h2>{poll.question}</h2>
-                      <p>Total Votes: {totalVotes}</p>
+                      <p className="min-w-fit">Total Votes: {totalVotes}</p>
                     </div>
                     {
                       poll.options.map((option: OptionModel, index2: number) => {
@@ -156,7 +156,7 @@ const App = () => {
             )
           })
         }
-        <button type="submit" className="text-xl font-semibold text-white cursor-pointer bg-teal-500 px-8 py-1 w-fit self-center rounded">Submit</button>
+        <button type="submit" className="text-xl font-semibold text-white cursor-pointer bg-teal-500 px-8 py-1 w-fit rounded">Submit</button>
       </form>
 
       <footer className="py-4 bg-linear-to-t from-gray-200 to-gray-100">
