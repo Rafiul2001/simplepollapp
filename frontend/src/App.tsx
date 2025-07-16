@@ -69,52 +69,49 @@ const App = () => {
   return (
     <div>
       <h1>Poll App</h1>
-      {
-        pollQuestions.map((poll, index) => {
-          // Build the gradient string from poll options
-          let totalVotes = poll.options.reduce((sum, o) => sum + o.votes, 0);
-          let currentPercent = 0;
-
-          const gradientStops = poll.options.map((option, i) => {
-            const percentage = totalVotes === 0 ? 100 / poll.options.length : (option.votes / totalVotes) * 100;
-            const start = currentPercent;
-            const end = currentPercent + percentage;
-            currentPercent = end;
-            const color = getColor(i); // pick color for this slice
-            return `${color} ${start}% ${end}%`;
-          }).join(',');
-
-          return (
-            <div key={index}>
-              <div
-                className="h-40 w-40 rounded-full"
-                style={{ backgroundImage: `conic-gradient(${gradientStops})` }}
-              ></div>
-              <h2>{poll.question}</h2>
-            </div>
-          );
-        })
-      }
 
       <form onSubmit={handleSubmit}>
         {
           pollQuestions.map((poll: Poll, index: number) => {
+            // Build the gradient string from poll options
+            let totalVotes = poll.options.reduce((sum, o) => sum + o.votes, 0);
+            let currentPercent = 0;
+
+            const gradientStops = poll.options.map((option, i) => {
+              const percentage = totalVotes === 0 ? 100 / poll.options.length : (option.votes / totalVotes) * 100;
+              const start = currentPercent;
+              const end = currentPercent + percentage;
+              currentPercent = end;
+              const color = getColor(i); // pick color for this slice
+              return `${color} ${start}% ${end}%`;
+            }).join(',');
+
+
             return (
               <div key={index}>
-                <h2>{poll.question}</h2>
-                {
-                  poll.options.map((option: OptionModel, index: number) => {
-                    return (
-                      <div key={index}>
-                        <label key={index}>
-                          <input required name={`poll-${poll.id}`} type="radio" value={option.id} checked={isChecked(poll.id, option.id)} onChange={() => handleUpdate(poll.id, option.id)} />
-                          <span>{option.text}</span>
-                        </label>
-                        <br />
-                      </div>
-                    )
-                  })
-                }
+                <div className="flex gap-2 items-center justify-between my-4">
+                  <div>
+                    <h2>{poll.question}</h2>
+                    {
+                      poll.options.map((option: OptionModel, index: number) => {
+                        return (
+                          <div key={index}>
+                            <label key={index}>
+                              <input required name={`poll-${poll.id}`} type="radio" value={option.id} checked={isChecked(poll.id, option.id)} onChange={() => handleUpdate(poll.id, option.id)} />
+                              <span>{option.text}</span>
+                            </label>
+                            <br />
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                  <div key={index}
+                    className="h-40 w-40 rounded-full"
+                    style={{ backgroundImage: `conic-gradient(${gradientStops})` }}
+                  >
+                  </div>
+                </div>
               </div>
             )
           })
