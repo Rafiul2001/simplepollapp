@@ -24,3 +24,17 @@ In body:
 {
     "optionId": "C"
 }
+
+Updating any poll vote using post method in JSON format
+demo url string = 
+In body:
+[
+    {
+        "questionId": "68769d53dbdfb1d2e198cec3",
+        "optionId": "A"
+    },
+    {
+        "questionId": "68769d53dbdfb1d2e198cec3",
+        "optionId": "B"
+    }
+]

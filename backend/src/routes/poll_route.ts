@@ -27,6 +27,34 @@ poll_router.post("/add_polls", async (req: Request, res: Response) => {
   }
 });
 
+poll_router.post("/vote", async (req: Request, res: Response) => {
+  const questionAndOptions: { questionId: string, optionId: string }[] = req.body
+  try {
+    // Run all update operations in parallel and wait for all to finish
+    const updatePromises = questionAndOptions.map((qao) =>
+      pollCollection.updateOne(
+        {
+          _id: new ObjectId(qao.questionId),
+          "options.id": qao.optionId
+        },
+        {
+          $inc: {
+            "options.$.votes": 1
+          },
+          $set: {
+            updatedAt: new Date()
+          }
+        }
+      )
+    );
+    await Promise.all(updatePromises);
+    res.status(200).send("Votes recorded successfully");
+  } catch (error) {
+    console.log(error)
+    res.status(500).send("Internal Server Error")
+  }
+})
+
 poll_router.put("/vote/:id", async (req: Request, res: Response) => {
   const objectID = req.params.id;
   const optionID = req.body.optionId;
